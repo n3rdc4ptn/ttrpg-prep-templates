@@ -11,6 +11,7 @@ The repo started as a single Lazy GM prep sheet and has since grown into a multi
 | Lazy GM Session Prep | system-agnostic | Paper Pro | EN, DE |
 | Adversary Cards | Daggerheart | Paper Pro | EN, DE |
 | Adversary Cards | Daggerheart | Paper Pro Move | EN, DE |
+| Lazy GM Session Prep (native template) | system-agnostic | Paper Pro, Paper Pro Move | EN, DE |
 
 Prebuilt PDFs are attached to each [GitHub release](https://github.com/n3rdc4ptn/ttrpg-prep-templates/releases) so you can download them directly without running the toolchain.
 
@@ -49,6 +50,33 @@ bun run render:adversary        # Daggerheart adversary, English, Paper Pro Move
 bun run render:adversary:de     # Daggerheart adversary, German, Paper Pro Move
 ```
 
+## Native reMarkable templates
+
+Besides the PDFs, the Lazy GM sheet is also available as a native reMarkable page template (SVG + PNG). A native template shows up in the device's template picker, so you can put it behind any page of any notebook instead of importing a PDF.
+
+It follows the eight steps from *Return of the Lazy Dungeon Master* in book order: characters, strong start, scenes, secrets and clues, locations, NPCs, monsters, rewards.
+
+```bash
+bun run render:remarkable
+```
+
+This writes `output/remarkable/<device>/lazy-gm-session-prep-<lang>.{svg,png}` at the native screen resolution (Paper Pro 1620×2160, Paper Pro Move 954×1696) plus `output/remarkable/templates-entry.json` with the matching `templates.json` entries. Text is converted to outlines, so the templates don't depend on fonts installed on the device.
+
+### Installing on the device
+
+Custom templates need developer mode (Settings → Software → Advanced → Developer mode; the menu path varies a little between software versions). **Turning it on factory-resets the tablet**, so sync everything to the cloud first. Afterwards the device shows its SSH password on the *About* page in Settings.
+
+With the tablet connected via USB (`10.11.99.1`):
+
+```bash
+scripts/install-remarkable.sh 10.11.99.1 paper-pro de       # Paper Pro, German
+scripts/install-remarkable.sh 10.11.99.1 paper-pro-move de  # Paper Pro Move, German
+```
+
+The script remounts the root filesystem writable, backs up `templates.json` once (`templates.json.bak`), copies the SVG and PNG to `/usr/share/remarkable/templates/`, adds the entry (only if it's missing) and restarts the UI. The template then appears under *Planners*.
+
+Software updates replace the system partition and remove custom templates; just run the script again afterwards.
+
 ## Repository layout
 
 ```
@@ -63,6 +91,10 @@ shared/
   paper-pro.css               # 179.7mm × 239.6mm page size
   paper-pro-move.css          # 91.8mm × 163.2mm page size
   paper-pro-adversary.css     # adversary-specific Paper Pro sizing
+scripts/
+  render.ts                   # HTML → PDF
+  remarkable.ts               # native reMarkable templates (SVG + PNG)
+  install-remarkable.sh       # copy a template onto the tablet via SSH
 ```
 
 ## Adding a new template

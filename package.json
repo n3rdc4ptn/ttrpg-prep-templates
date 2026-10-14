@@ -4,7 +4,10 @@
   "type": "module",
   "private": true,
   "devDependencies": {
-    "@types/bun": "latest"
+    "@fontsource/gelasio": "^5.3.0",
+    "@resvg/resvg-js": "^2.6.2",
+    "@types/bun": "latest",
+    "opentype.js": "^2.0.0"
   },
   "peerDependencies": {
     "typescript": "^5"
@@ -18,7 +21,8 @@
     "dev:adversary": "bun --hot templates/daggerheart/adversary/paper-pro-move/en.html",
     "dev:adversary:de": "bun --hot templates/daggerheart/adversary/paper-pro-move/de.html",
     "render:adversary": "bun scripts/render.ts templates/daggerheart/adversary/paper-pro-move/en.html",
-    "render:adversary:de": "bun scripts/render.ts templates/daggerheart/adversary/paper-pro-move/de.html"
+    "render:adversary:de": "bun scripts/render.ts templates/daggerheart/adversary/paper-pro-move/de.html",
+    "render:remarkable": "bun scripts/remarkable.ts"
   },
   "dependencies": {
     "pdf-lib": "^1.17.1"
